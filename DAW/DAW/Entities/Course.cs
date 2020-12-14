@@ -8,6 +8,7 @@ namespace DAW.Entities
     public class Course : BaseEntity
     {
         public int? ProfessorId { get; set; }
+        public string Name { get; set; }
 
         public virtual Professor Professor { get; set; }
         public virtual List<CourseStudent> CourseStudents { get; set; }
