@@ -33,7 +33,8 @@ namespace DAW
             services.AddDbContext<ClassroomDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.Configure<AppSettings>(Configuration.GetSection("AppSettings"));
 
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore); ;
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
