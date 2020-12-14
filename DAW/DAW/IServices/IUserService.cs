@@ -1,4 +1,5 @@
 ﻿using DAW.Entities;
+using DAW.Models;
 using Laborator4_453.Models;
 using System;
 using System.Collections.Generic;

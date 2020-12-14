@@ -1,5 +1,8 @@
 ﻿using DAW.Entities;
+using DAW.Enums;
+using DAW.IRepositories;
 using DAW.IServices;
+using DAW.Models;
 using Laborator4_453.Interfaces;
 using Laborator4_453.Mapper;
 using Laborator4_453.Models;
@@ -36,7 +39,7 @@ namespace DAW.Services
 
         public List<User> GetAll()
         {
-            return _userRepostiory.GetAll();
+            return _userRepostiory.GetAllActive();
         }
 
         public User GetById(int id)

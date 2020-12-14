@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace DAW.Entities
 {
-    public class CourseStudent
+    public class CourseStudent: BaseEntity
     {
-        public int Id { get; set; }
         public int CourseId { get; set; }
         public int StudentId { get; set; }
 

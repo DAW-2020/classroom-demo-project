@@ -1,4 +1,5 @@
 ﻿using DAW.Data;
+using DAW.Entities;
 using DAW.IRepositories;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -8,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DAW.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     {
         protected readonly ClassroomDbContext _context;
         protected readonly DbSet<T> _table;
@@ -21,15 +22,29 @@ namespace DAW.Repositories
 
         public void Create(T entity)
         {
+            entity.CreateTime = DateTime.UtcNow;
+            entity.UpdatedTime = DateTime.UtcNow;
             _context.Set<T>().Add(entity);
         }
 
         public void CreateRange(List<T> entities)
         {
+            entities.ForEach(x =>
+            {
+                x.CreateTime = DateTime.UtcNow;
+                x.UpdatedTime = DateTime.UtcNow;
+            });
+
             _table.AddRange(entities);
         }
 
         public void Delete(T entity)
+        {
+            entity.IsDeleted = true;
+            Update(entity);
+        }
+
+        public void HardDelete(T entity)
         {
             _table.Remove(entity);
         }
@@ -37,6 +52,11 @@ namespace DAW.Repositories
         public T FindById(int id)
         {
             return _table.Find(id);
+        }
+
+        public List<T> GetAllActive()
+        {
+            return _table.Where(x => !x.IsDeleted).ToList();
         }
 
         public List<T> GetAll()
@@ -51,6 +71,7 @@ namespace DAW.Repositories
 
         public void Update(T entity)
         {
+            entity.UpdatedTime = DateTime.UtcNow;
             _table.Update(entity);
         }
     }

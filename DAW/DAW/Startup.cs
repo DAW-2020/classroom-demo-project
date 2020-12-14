@@ -1,5 +1,7 @@
 using DAW.Data;
+using DAW.IRepositories;
 using DAW.IServices;
+using DAW.Repositories;
 using DAW.Services;
 using Laborator4_453.Helpers;
 using Laborator4_453.Interfaces;
@@ -39,7 +41,15 @@ namespace DAW
             });
 
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IStudentRepository, StudentRepository>();
+            services.AddTransient<IProfessorRepository, ProfessorRepository>();
+            services.AddTransient<ICourseRepository, CourseRepository>();
+            services.AddTransient<ICourseStudentRepository, CourseStudentRepository>();
+
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IStudentService, StudentService>();
+            services.AddTransient<IProfessorService, ProfessorService>();
+            services.AddTransient<ICourseService, CourseService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
