@@ -1,34 +1,81 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import {BrowserModule} from '@angular/platform-browser';
+import {NgModule} from '@angular/core';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import {RouterModule} from '@angular/router';
 
-import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
+import {AppComponent} from './app.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {HomeComponent} from './pages/home/home.component';
+import {LandingComponent} from './pages/landing/landing.component';
+import {MatCardModule, MatListModule, MatToolbarModule} from '@angular/material';
+import {AuthLayoutComponent} from './shared/layouts/auth-layout/auth-layout.component';
+import {StudentLayoutComponent} from './shared/layouts/student-layout/student-layout.component';
+import {ProfessorLayoutComponent} from './shared/layouts/professor-layout/professor-layout.component';
+import {AuthGuard} from './core/guards/auth.guard';
+import {AuthLayoutModule} from './shared/layouts/auth-layout/auth-layout.module';
+import {StudentLayoutModule} from './shared/layouts/student-layout/student-layout.module';
+import {ProfessorLayoutModule} from './shared/layouts/professor-layout/professor-layout.module';
+import {ToastrModule} from 'ngx-toastr';
 
 @NgModule({
   declarations: [
     AppComponent,
-    NavMenuComponent,
     HomeComponent,
-    CounterComponent,
-    FetchDataComponent
+    LandingComponent
   ],
   imports: [
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserModule.withServerTransition({appId: 'ng-cli-universal'}),
     HttpClientModule,
     FormsModule,
+    AuthLayoutModule,
+    StudentLayoutModule,
+    ProfessorLayoutModule,
+    ToastrModule.forRoot(),
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-    ])
+      {path: '', component: LandingComponent, pathMatch: 'full'},
+      {path: 'home', component: HomeComponent, pathMatch: 'full'},
+      {
+        path: '',
+        component: AuthLayoutComponent,
+        children: [
+          {
+            path: '',
+            loadChildren:
+              () => import('./shared/layouts/auth-layout/auth-layout.module').then(m => m.AuthLayoutModule)
+          }
+        ]
+      },
+      {
+        path: '',
+        component: StudentLayoutComponent,
+        children: [
+          {
+            path: '',
+            loadChildren:
+              () => import('./shared/layouts/student-layout/student-layout.module').then(m => m.StudentLayoutModule)
+          }
+        ]
+      },
+      {
+        path: '',
+        component: ProfessorLayoutComponent,
+        children: [
+          {
+            path: '',
+            loadChildren:
+              () => import('./shared/layouts/professor-layout/professor-layout.module').then(m => m.ProfessorLayoutModule)
+          }
+        ]
+      },
+    ]),
+    BrowserAnimationsModule,
+    MatCardModule,
+    MatListModule,
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
