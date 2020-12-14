@@ -1,0 +1,23 @@
+<div>
+  <p>Login</p>
+  <div class="example-container">
+    <form [formGroup]="registrationForm">
+      <mat-form-field appearance="fill">
+        <mat-label>Email</mat-label>
+        <input formControlName="Email" matInput type="text" class="example-right-align">
+        <span matPrefix>$&nbsp;</span>
+        <span matSuffix>.00</span>
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Enter your password</mat-label>
+        <input formControlName="Password" matInput [type]="hide ? 'password' : 'text'">
+        <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'"
+                [attr.aria-pressed]="hide">
+          <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+      </mat-form-field>
+      <button mat-button color="warn" [disabled]="!registrationForm.valid" type="submit">Register</button>
+    </form>
+  </div>
+  <a [routerLink]="['../login']">Login</a>
+</div>

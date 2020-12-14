@@ -1,0 +1,13 @@
+.auth-layout-container {
+  background: lightgrey;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  background: white;
+  width: 50%;
+  height: 90%;
+  border-radius: 20px;
+}
